@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/background">
+
+    <Button
+            android:id="@+id/btnPhysics"
+            android:text="Physics demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/btnVoronoi"
+            android:text="Voronoi View demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/btnGif"
+            android:text="Gif demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/btnUIDemo"
+            android:text="AlertLabelCircle demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnUIDemo"
+            app:mtf_animationDuration="500"
+            app:mtf_cardCollapsedHeight="4dp"
+            app:mtf_image="@mipmap/ic_launcher"
+            app:mtf_labelColor="#666"
+            app:mtf_openKeyboardOnFocus="true">
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:ems="10"
+                android:textColor="#333"
+                android:textSize="15sp" />
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+
+</LinearLayout>
