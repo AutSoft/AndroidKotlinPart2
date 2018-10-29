@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+        defaultConfig {
+        applicationId "hu.aut.security.demo"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 2
+        versionName "1.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        debug {
+            storeFile file("../seccode_debug.keystore")
+        }
+        release {
+            storeFile file("../seccode.keystore")
+            storePassword "3JeWePD4VRhPdizfdP7ax/4SU4naK0mf"
+            keyAlias "seccode"
+            keyPassword "cQ3IL0dcukz9V82aw8ZDsXPcFr2lvaEm"
+        }
+    }
+
+    flavorDimensions "price" , "isadmin"
+
+    productFlavors{
+        free {
+            dimension "price"
+            resValue "string", "mainTitle", "Ingyenes"
+        }
+        paid {
+            dimension "price"
+            resValue "string", "mainTitle", "Fizetős"
+        }
+
+        withadmin {
+            dimension "isadmin"
+            debuggable false
+            buildConfigField "boolean", "isAdmin", "true"
+        }
+        withoutadmin {
+            debuggable true
+            dimension "isadmin"
+            buildConfigField "boolean", "isAdmin", "false"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release;
+        }
+        debug {
+            signingConfig signingConfigs.debug;
+        }
+    }
+    /*
+    MD5:  E4:A4:5C:F2:F3:A6:63:18:C7:17:6C:25:4C:F8:85:0C
+    SHA1: 6D:1A:7E:31:03:F1:6C:6A:9D:96:89:B3:25:A7:E8:9D:61:B0:1C:96
+    SHA256: 4F:0E:F0:95:D8:1C:34:21:5A:C1:AD:E1:E0:82:20:25:68:61:BE:34:56:96:1F:48:8A:6D:CA:B5:DD:B1:7C:9E
+    SHA1-BASE64: bRp+MQPxbGqdlomzJafonWGwHJY=
+    */
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}

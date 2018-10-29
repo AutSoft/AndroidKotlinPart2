@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#074170</color>
+    <color name="primary_dark">#053460</color>
+    <color name="primary_light">#fffdff</color>
+    <color name="accent">#095690</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="white">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="pressed_row">#CCCCCC</color>
+    <color name="focused_row">#AAAAAA</color>
+    <color name="menu_tint">#121212</color>
+    <color name="boarding_bg">#E64A19</color>
+    <color name="delayed_bg">#212121</color>
+    <color name="on_flight_bg">#FFFFFF</color>
+    <color name="dep_arr_flight_bg">#00796B</color>
+    <color name="boarding_text">#FFFFFF</color>
+    <color name="delayed_text">#FFFFFF</color>
+    <color name="on_flight_text">#212121</color>
+    <color name="dep_arr_flight_text">#FFFFFF</color>
+</resources>
