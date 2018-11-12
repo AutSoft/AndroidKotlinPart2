@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">The PIN Project</string>
+    <string name="action_settings">Settings</string>
+    <string name="home_successful_login">Successful login</string>
+    <string name="pin_invalid">Invalid PIN</string>
+    <string name="pin_not_numeric">PIN code should be numeric</string>
+</resources>

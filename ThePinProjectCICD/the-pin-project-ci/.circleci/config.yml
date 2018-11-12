@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+         name: Chmod permissions
+         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew lint test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
+          destination: test-results
+      - run:
+          name: Build Debug
+          command: ./gradlew assembleDebug assembleAndroidTest
+
+      # Firebase Test Lab
+      - run:
+          name: Export Google Cloud Service key environment variable
+          command: echo 'export GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY"' >> $BASH_ENV
+      - run:
+          name: Decode Google Cloud credentials
+          command: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/client-secret.json
+      - run:
+          name: Set Google Cloud target project
+          command: gcloud config set project thepinproject-dbd56
+      - run:
+          name: Authenticate with Google Cloud
+          command: gcloud auth activate-service-account circleci-instrumentation-tests@thepinproject-dbd56.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
+      - run:
+          name: Run instrumented test on Firebase Test Lab
+          command: gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/mock/debug/app-mock-debug.apk --test app/build/outputs/apk/androidTest/mock/debug/app-mock-debug-androidTest.apk --device model=sailfish,version=28,locale=en_US,orientation=portrait --timeout 8m
+
+      - run:
+          name: Build Release
+          command: ./gradlew assembleProdRelease
+      - store_artifacts:
+                path: app/build/outputs/apk
+                destination: apks
+
+      # Google Play Publish
+      - run:
+          name: Export Play Publisher Service Key environment variable
+          command: echo 'export PLAY_PUBLISHER_SERVICE_KEY="$PLAY_PUBLISHER_SERVICE_KEY"' >> $BASH_ENV
+      - run:
+          name: Decode Play Publisher Service Key credentials
+          command: echo $PLAY_PUBLISHER_SERVICE_KEY | base64 -di > app/thepinproject-google-play-publisher.json
+      - run:
+          name: Publish to Google Play Store
+          command: ./gradlew publishProdReleaseApk
